@@ -1,8 +1,28 @@
 .env
 .env.*
 !.env.example
+
+# 憑證與私密設定
+*.pem
+*.key
+credentials/
+secrets/
+
+# 依賴、建置與快取
 node_modules/
 dist/
 build/
+coverage/
+.cache/
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# 編輯器、作業系統與暫存檔
+.vscode/
+.idea/
 Thumbs.db
 .DS_Store
+*.log
+*.tmp
