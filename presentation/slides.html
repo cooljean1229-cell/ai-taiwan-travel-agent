@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d5867">
+  <title>把台灣週末，變成旅人的下一站｜旅行社行銷簡報</title>
+  <style>
+    :root {
+      --ink: #173d45;
+      --muted: #557078;
+      --paper: #f5f0e6;
+      --white: #fffdf8;
+      --teal: #0d5867;
+      --teal2: #287b80;
+      --coral: #e87556;
+      --gold: #e8bd68;
+      --line: rgba(23,61,69,.17);
+      --shadow: 0 22px 70px rgba(12,38,43,.20);
+      --sans: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", sans-serif;
+      --serif: "Noto Serif TC", "PMingLiU", serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: #17343a; color: var(--ink); font-family: var(--sans); }
+    body { display: grid; place-items: center; overflow: hidden; }
+    button { font: inherit; }
+    .stage { width: min(100vw, calc(100vh * 16 / 9)); aspect-ratio: 16 / 9; position: relative; background: var(--paper); box-shadow: var(--shadow); overflow: hidden; }
+    .slide { position: absolute; inset: 0; display: grid; grid-template-rows: 1fr auto; padding: 5.2% 7.3% 3.3%; opacity: 0; visibility: hidden; transform: translateX(3%); transition: opacity .35s ease, transform .35s ease, visibility .35s; overflow: hidden; }
+    .slide.active { opacity: 1; visibility: visible; transform: none; z-index: 2; }
+    .slide::before { content: ""; position: absolute; z-index: -1; width: 35%; aspect-ratio: 1; border-radius: 50%; right: -14%; top: -25%; background: rgba(232,189,104,.18); }
+    .slide::after { content: ""; position: absolute; z-index: -1; width: 20%; aspect-ratio: 1; border-radius: 50%; left: -10%; bottom: -16%; background: rgba(40,123,128,.10); }
+    .content { position: relative; min-height: 0; display: flex; flex-direction: column; justify-content: center; }
+    .eyebrow { font-size: clamp(12px, 1.1vw, 17px); font-weight: 800; letter-spacing: .18em; color: var(--teal2); text-transform: uppercase; margin: 0 0 1.6em; }
+    h1, h2, p { margin-top: 0; }
+    h1, h2 { letter-spacing: -.035em; line-height: 1.12; }
+    h1 { font-size: clamp(42px, 6.1vw, 94px); max-width: 11ch; margin-bottom: .3em; }
+    h2 { font-size: clamp(34px, 4.5vw, 68px); margin-bottom: .42em; }
+    .lead { font-size: clamp(19px, 2.15vw, 33px); line-height: 1.55; max-width: 33em; color: #35555b; margin: 0; }
+    .meta { margin-top: 2.4em; color: var(--muted); font-size: clamp(12px, 1.05vw, 16px); line-height: 1.7; }
+    .foot { display: flex; justify-content: space-between; gap: 1rem; align-items: end; border-top: 1px solid var(--line); padding-top: .8em; color: var(--muted); font-size: clamp(10px, .86vw, 13px); line-height: 1.45; }
+    .source { max-width: 88%; }
+    .num { flex: none; font-weight: 800; color: var(--teal); font-variant-numeric: tabular-nums; }
+    .dark { background: var(--teal); color: var(--white); }
+    .dark .lead, .dark .meta, .dark .foot { color: rgba(255,253,248,.78); }
+    .dark .eyebrow, .dark .num { color: var(--gold); }
+    .dark .foot { border-color: rgba(255,255,255,.25); }
+    .cover { background: var(--teal); color: var(--white); }
+    .cover .content { max-width: 77%; }
+    .cover .eyebrow { color: var(--gold); }
+    .cover h1 { max-width: 10ch; }
+    .cover .lead { color: #d9e8e3; }
+    .cover::before { width: 48%; right: -7%; top: 6%; border: 1px solid rgba(255,255,255,.28); background: radial-gradient(circle at 38% 38%, rgba(232,189,104,.86) 0 2%, transparent 2.4%), radial-gradient(circle at 65% 56%, rgba(232,117,86,.92) 0 1.8%, transparent 2.2%), radial-gradient(ellipse at 50% 50%, rgba(40,123,128,.9), transparent 68%); box-shadow: inset 0 0 0 28px rgba(255,255,255,.025), inset 0 0 0 76px rgba(255,255,255,.035); }
+    .cover::after { display: none; }
+    .two-col { display: grid; grid-template-columns: 1.05fr .95fr; gap: 7%; align-items: center; }
+    .visual { min-height: 42%; position: relative; display: grid; place-items: center; }
+    .orbit { width: min(31vw, 430px); aspect-ratio: 1; border: 1px solid rgba(13,88,103,.28); border-radius: 50%; position: relative; background: radial-gradient(circle, rgba(232,189,104,.32) 0 5%, transparent 5.4%), radial-gradient(circle, transparent 0 34%, rgba(13,88,103,.09) 34.4% 35%, transparent 35.4% 60%, rgba(13,88,103,.14) 60.4% 60.8%, transparent 61.2%); }
+    .orbit::before, .orbit::after { content: ""; position: absolute; inset: 14%; border: 1px dashed rgba(13,88,103,.27); border-radius: 50%; transform: rotate(-24deg) scaleX(.64); }
+    .orbit::after { transform: rotate(36deg) scaleX(.64); }
+    .orbit-label { position: absolute; background: var(--white); padding: .55em .85em; border-radius: 99px; font-weight: 800; font-size: clamp(12px,1vw,16px); box-shadow: 0 5px 22px rgba(12,38,43,.10); }
+    .orbit-label.one { top: 11%; left: 4%; }.orbit-label.two { right: -3%; top: 45%; }.orbit-label.three { bottom: 8%; left: 21%; }
+    .columns { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.2%; margin-top: 2.2em; }
+    .column { border-top: 4px solid var(--coral); padding: 1em 0 0; }
+    .column:nth-child(2) { border-color: var(--teal2); }.column:nth-child(3) { border-color: var(--gold); }
+    .column strong { display: block; font-size: clamp(19px,2vw,30px); margin-bottom: .45em; }
+    .column p { font-size: clamp(14px,1.28vw,19px); line-height: 1.6; color: #476168; margin: 0; }
+    .chips { display: flex; flex-wrap: wrap; gap: .65em; margin-top: 1.4em; }
+    .chip { display: inline-block; border: 1px solid rgba(13,88,103,.28); border-radius: 99px; padding: .5em .9em; font-size: clamp(13px,1.1vw,17px); color: var(--teal); font-weight: 700; }
+    .route { display: flex; align-items: center; gap: .6em; margin-top: 1.8em; color: var(--teal); font-size: clamp(14px,1.3vw,20px); font-weight: 800; flex-wrap: wrap; }
+    .route b { color: var(--coral); font-size: 1.2em; }
+    .proposal { display: inline-flex; align-items: center; gap: .5em; background: rgba(232,117,86,.13); color: #914831; border-radius: 99px; padding: .55em .9em; font-size: clamp(12px,1vw,15px); font-weight: 800; margin-top: .8em; }
+    .steps { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2em; margin-top: 2em; counter-reset: step; }
+    .step { border-top: 1px solid var(--line); padding-top: 1em; font-size: clamp(15px,1.4vw,21px); line-height: 1.55; color: #35555b; }
+    .step::before { counter-increment: step; content: "0" counter(step); display: block; color: var(--coral); font-weight: 900; font-size: clamp(20px,2vw,30px); margin-bottom: .55em; }
+    .controls { position: fixed; z-index: 20; bottom: max(14px, env(safe-area-inset-bottom)); left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; padding: 6px; border-radius: 999px; background: rgba(13,40,45,.82); backdrop-filter: blur(12px); color: white; box-shadow: 0 8px 30px rgba(0,0,0,.2); }
+    .controls button { border: 0; color: white; background: transparent; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 20px; }
+    .controls button:hover, .controls button:focus-visible { background: rgba(255,255,255,.18); outline: 2px solid var(--gold); }
+    .counter { min-width: 52px; text-align: center; font-size: 13px; font-variant-numeric: tabular-nums; }
+    .hint { position: fixed; z-index: 19; right: 18px; bottom: 17px; color: rgba(255,255,255,.7); font-size: 12px; }
+    .progress { height: 4px; position: absolute; z-index: 5; left: 0; top: 0; background: var(--coral); width: 12.5%; transition: width .25s ease; }
+    a { color: inherit; }
+    @media (max-width: 700px) {
+      body { display: block; overflow: hidden; background: var(--paper); }
+      .stage { width: 100vw; height: 100dvh; aspect-ratio: auto; box-shadow: none; }
+      .slide { padding: max(7vh, 48px) 7vw 92px; grid-template-rows: 1fr auto; }
+      .content { justify-content: center; }
+      h1 { font-size: clamp(42px, 12vw, 68px); }
+      h2 { font-size: clamp(34px, 9vw, 52px); }
+      .lead { font-size: clamp(18px,5vw,23px); }
+      .two-col { grid-template-columns: 1fr; gap: 1em; }
+      .visual { min-height: 180px; }
+      .orbit { width: min(55vw, 250px); }
+      .columns { grid-template-columns: 1fr; gap: 1em; margin-top: 1em; }
+      .column { padding-top: .5em; }
+      .column strong { font-size: 19px; margin-bottom: .2em; }
+      .column p { font-size: 15px; }
+      .steps { grid-template-columns: 1fr; gap: .8em; margin-top: 1.1em; }
+      .step { font-size: 16px; padding-top: .6em; }
+      .step::before { display: inline-block; margin: 0 .6em 0 0; font-size: 18px; }
+      .foot { font-size: 10px; }
+      .source { max-width: 84%; }
+      .controls { bottom: max(10px, env(safe-area-inset-bottom)); }
+      .hint { display: none; }
+      .cover .content { max-width: 100%; }
+      .cover::before { width: 75%; right: -29%; top: 8%; }
+    }
+    @media (max-height: 620px) and (min-width: 701px) {
+      .slide { padding-top: 3.5%; padding-bottom: 2.5%; }
+      h2 { font-size: clamp(32px,4vw,56px); }
+      .lead { font-size: clamp(18px,1.8vw,27px); }
+      .columns { margin-top: 1.3em; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; scroll-behavior: auto !important; } }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-label="旅行社行銷簡報">
+    <div class="progress" id="progress"></div>
+    <section class="slide cover active" aria-label="第 1 張：課程主題" aria-hidden="false">
+      <div class="content">
+        <p class="eyebrow">旅行社行銷訓練｜台灣旅遊情報</p>
+        <h1>把台灣週末，<br>變成旅人的下一站</h1>
+        <p class="lead">用可查證的旅遊情報，設計親子、情侶與熟齡提案</p>
+        <p class="meta">情報報導期間｜2026.11.23 — 11.29<br>資料查詢日｜2026.11.27</p>
+      </div>
+      <footer class="foot"><span class="source">內容依官方旅遊活動資料整理；行程推薦為建議，出發前請核對最新公告。</span><span class="num">01 / 08</span></footer>
+    </section>
+
+    <section class="slide" aria-label="第 2 張：市場需求" aria-hidden="true">
+      <div class="content two-col">
+        <div>
+          <p class="eyebrow">01｜從情報看需求</p>
+          <h2>同一座台灣，<br>三種出遊理由</h2>
+          <p class="lead">把官方活動資訊，翻譯成旅客在意的體驗選擇。</p>
+          <div class="chips"><span class="chip">親子｜一起探索</span><span class="chip">情侶｜共享氛圍</span><span class="chip">熟齡｜慢遊自然</span></div>
+        </div>
+        <div class="visual" aria-hidden="true"><div class="orbit"><span class="orbit-label one">活動情報</span><span class="orbit-label two">旅客偏好</span><span class="orbit-label three">旅遊提案</span></div></div>
+      </div>
+      <footer class="foot"><span class="source">需求分眾為本簡報的服務設計框架，不代表市場統計或已驗證客戶偏好。</span><span class="num">02 / 08</span></footer>
+    </section>
+
+    <section class="slide" aria-label="第 3 張：親子旅遊" aria-hidden="true">
+      <div class="content">
+        <p class="eyebrow">02｜親子旅遊</p>
+        <h2>讓好奇心，<br>成為出發理由</h2>
+        <div class="columns">
+          <div class="column"><strong>台灣科學節</strong><p>科學演示、戲劇、展覽、工作坊等多元內容。<br>日期：11/7–8、11/14–15</p></div>
+          <div class="column"><strong>五地場館</strong><p>臺北、基隆、臺中、高雄、屏東；依場次選擇目的地。</p></div>
+          <div class="column"><strong>提案前先確認</strong><p>兒童年齡限制、分場與報名方式，以主辦網站為準。</p></div>
+        </div>
+        <div class="route">問孩子喜歡什麼 <b>→</b> 查官方分場 <b>→</b> 提供候選行程</div>
+      </div>
+      <footer class="foot"><span class="source">[SRC-03] 日期與活動內容來源：交通部觀光署「2026台灣科學節」活動頁，查詢日 2026-11-27。活動日期已過；本頁為情報案例，不代表仍可報名。<a href="https://www.taiwan.net.tw/m1.aspx?lid=081899&amp;sno=0001019" target="_blank" rel="noopener">來源</a></span><span class="num">03 / 08</span></footer>
+    </section>
+
+    <section class="slide dark" aria-label="第 4 張：情侶旅遊" aria-hidden="true">
+      <div class="content">
+        <p class="eyebrow">03｜情侶旅遊</p>
+        <h2>把相聚時刻，<br>放進節慶風景</h2>
+        <div class="columns">
+          <div class="column"><strong>新北歡樂耶誕城</strong><p>城市節慶氛圍｜11/13–12/27</p></div>
+          <div class="column"><strong>龍崎光節空山祭</strong><p>山林中的現地藝術裝置｜12/19–2/14</p></div>
+          <div class="column"><strong>大鵬灣暖冬派對</strong><p>音樂野餐、沙灘活動、市集｜12/12–13、12/19–20</p></div>
+        </div>
+        <p class="meta">日期依官方頁面列示；場次、開放安排與天候異動仍須確認。</p>
+      </div>
+      <footer class="foot"><span class="source">[SRC-01] 來源：交通部觀光署「觀光活動／活動行事曆」，查詢日 2026-11-27。<a href="https://www.taiwan.net.tw/m1.aspx?sNo=0001019" target="_blank" rel="noopener">官方活動頁</a></span><span class="num">04 / 08</span></footer>
+    </section>
+
+    <section class="slide" aria-label="第 5 張：熟齡旅遊" aria-hidden="true">
+      <div class="content two-col">
+        <div>
+          <p class="eyebrow">04｜熟齡旅遊</p>
+          <h2>慢下來，<br>看見自然細節</h2>
+          <p class="lead">臺灣國際觀鳥馬拉松<br>雲林・嘉義・臺南｜11/1–3/31</p>
+          <p class="meta">觀光署明載：特別適合樂齡族群及一般民眾。<br>另提及團客遊程與散客定點定時服務。</p>
+        </div>
+        <div class="visual" aria-hidden="true"><div class="orbit"><span class="orbit-label one">自然觀察</span><span class="orbit-label two">慢遊節奏</span><span class="orbit-label three">需求先問</span></div></div>
+      </div>
+      <footer class="foot"><span class="source">[SRC-01] 日期、地區及客群描述來源：交通部觀光署「觀光活動／活動行事曆」，查詢日 2026-11-27。接駁、步行量與無障礙條件待主辦單位確認。<a href="https://www.taiwan.net.tw/m1.aspx?sNo=0001019" target="_blank" rel="noopener">來源</a></span><span class="num">05 / 08</span></footer>
+    </section>
+
+    <section class="slide" aria-label="第 6 張：推薦方案" aria-hidden="true">
+      <div class="content">
+        <p class="eyebrow">05｜推薦方案</p>
+        <h2>先理解，再推薦</h2>
+        <div class="steps">
+          <div class="step">詢問同行者、日期、興趣與行動需求。</div>
+          <div class="step">從官方情報挑選候選，核對活動狀態與適用條件。</div>
+          <div class="step">提供有來源、有提醒、可再確認的行程提案。</div>
+        </div>
+        <div class="proposal">提案｜建立每週更新的情報清單與分眾詢問表</div>
+      </div>
+      <footer class="foot"><span class="source">流程與工具為建議方案，尚未代表旅行社既有服務或已完成建置。</span><span class="num">06 / 08</span></footer>
+    </section>
+
+    <section class="slide dark" aria-label="第 7 張：旅行社的專業優勢" aria-hidden="true">
+      <div class="content">
+        <p class="eyebrow">06｜旅行社的專業優勢</p>
+        <h2>把資訊整理好，<br>讓選擇更安心</h2>
+        <div class="columns">
+          <div class="column"><strong>來源可追</strong><p>重要資訊附官方來源與查詢日期。</p></div>
+          <div class="column"><strong>需求有問</strong><p>按同行者與偏好整理候選方案。</p></div>
+          <div class="column"><strong>未知不猜</strong><p>日期衝突、設施與交通細節明確列待確認。</p></div>
+        </div>
+        <div class="proposal">提案｜將上述做法發展為團隊服務標準；目前不代表既有實績或服務保證</div>
+      </div>
+      <footer class="foot"><span class="source">服務優勢內容為提案，需由旅行社確認流程、人力與服務能力後才能對外承諾。</span><span class="num">07 / 08</span></footer>
+    </section>
+
+    <section class="slide cover" aria-label="第 8 張：諮詢行動" aria-hidden="true">
+      <div class="content">
+        <p class="eyebrow">07｜諮詢行動</p>
+        <h2>下一趟旅程，<br>從你的偏好開始</h2>
+        <p class="lead">告訴我們：同行對象・想去時間・喜歡的體驗・需要的協助</p>
+        <p class="meta">讓情報成為起點，與專人一起確認細節。</p>
+        <div class="proposal">行動建議｜留下諮詢方式，取得個人化提案</div>
+      </div>
+      <footer class="foot"><span class="source">諮詢流程為行銷行動建議；實際窗口、蒐集欄位與服務內容由旅行社確認後發布。</span><span class="num">08 / 08</span></footer>
+    </section>
+  </main>
+  <nav class="controls" aria-label="投影片控制">
+    <button type="button" id="prev" aria-label="上一張" title="上一張（←）">‹</button>
+    <span class="counter" id="counter" aria-live="polite">01 / 08</span>
+    <button type="button" id="next" aria-label="下一張" title="下一張（→）">›</button>
+    <button type="button" id="fullscreen" aria-label="全螢幕" title="全螢幕展示">⛶</button>
+  </nav>
+  <div class="hint" aria-hidden="true">← → 切換　F 全螢幕</div>
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll('.slide')];
+      const counter = document.getElementById('counter');
+      const progress = document.getElementById('progress');
+      let current = 0;
+      function show(index) {
+        current = (index + slides.length) % slides.length;
+        slides.forEach((slide, i) => {
+          const active = i === current;
+          slide.classList.toggle('active', active);
+          slide.setAttribute('aria-hidden', String(!active));
+        });
+        counter.textContent = `${String(current + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+        progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+        document.title = `${String(current + 1).padStart(2, '0')}｜${slides[current].getAttribute('aria-label').replace(/^第 \d+ 張：/, '')}｜旅行社行銷簡報`;
+      }
+      document.getElementById('prev').addEventListener('click', () => show(current - 1));
+      document.getElementById('next').addEventListener('click', () => show(current + 1));
+      document.getElementById('fullscreen').addEventListener('click', async () => {
+        try {
+          if (!document.fullscreenElement) await document.querySelector('.stage').requestFullscreen();
+          else await document.exitFullscreen();
+        } catch (error) { console.warn('此瀏覽器不支援全螢幕展示。', error); }
+      });
+      document.addEventListener('keydown', event => {
+        if (['ArrowRight', 'PageDown', ' '].includes(event.key)) { event.preventDefault(); show(current + 1); }
+        else if (['ArrowLeft', 'PageUp'].includes(event.key)) { event.preventDefault(); show(current - 1); }
+        else if (event.key.toLowerCase() === 'f') document.getElementById('fullscreen').click();
+        else if (event.key === 'Home') show(0);
+        else if (event.key === 'End') show(slides.length - 1);
+        else if (event.key === 'Escape' && document.fullscreenElement) document.exitFullscreen();
+      });
+      let touchStartX = 0;
+      document.querySelector('.stage').addEventListener('touchstart', event => { touchStartX = event.changedTouches[0].screenX; }, { passive: true });
+      document.querySelector('.stage').addEventListener('touchend', event => {
+        const delta = event.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(delta) > 48) show(current + (delta < 0 ? 1 : -1));
+      }, { passive: true });
+      show(0);
+    })();
+  </script>
+</body>
+</html>
